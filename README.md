@@ -134,4 +134,3 @@ GMAIL_PASSWORD=
 This project is licensed under the [MIT License](LICENSE).
 
 Feel free to modify the code according to your specific project requirements.
-```
