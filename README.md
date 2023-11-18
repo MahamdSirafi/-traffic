@@ -133,17 +133,5 @@ GMAIL_PASSWORD=
 
 This project is licensed under the [MIT License](LICENSE).
 
-## Technologies Used
-
-- Node.js: JavaScript runtime environment
-- Express.js: Web application framework for Node.js
-- MongoDB: NoSQL database for data storage
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
-```
-
 Feel free to modify the code according to your specific project requirements.
 ```
