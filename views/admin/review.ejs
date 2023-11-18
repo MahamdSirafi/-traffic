@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link rel="stylesheet" href="sweetalert2.min.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <title>المراجعات</title>
+  </head>
+  <body>
+    <!--Navbar-->
+    <%- include(".././partials/headeradmin.ejs") %>
+    <section class="admin-review">
+      <div class="container mr-4">
+        <div class="row">
+          <%list.forEach((item,index)=> {%>
+           
+          <div class="col-lg-3 reviwe">
+            <span>
+              <p>صاحب الشكوى:</p>
+              <%=item.user.name %></span
+            >
+            <p class="mt-1">المراجعة :</p>
+            <span class="mb-4"> <%=item.review %></span>
+            <p class="mt-2">تاريخ المراجعة:</p>
+            <span style="font-size: 10px" class=""> <%=item.createdAt %> </span>
+            <% if (!item.violation) { %>
+            <button
+              data-idreview="<%= item._id %>"
+              class="review1-button btnnn delete"
+              style="background-color: brown"
+            >
+              الغاء المراجعة
+            </button>
+            <% } %> <% if (item.violation) { %>
+            <div class="d-flex mt-4" style="justify-content: space-between">
+              <button data_id="<%=item.violation%>" class="geet">تفاصيل</button>
+              <button
+                class="review2-button btnnn true"
+                data-idviolations="<%= item.violation %>"
+                data-idreview="<%= item._id %>"
+              >
+                قبول
+              </button>
+              <button
+                class="review1-button btnnn false"
+                data-idviolations="<%= item.violation %>"
+                data-idreview="<%= item._id %>"
+                style="background-color: brown"
+              >
+                رفض
+              </button>
+            </div>
+            <% } %>
+          </div>
+          <%});%>
+      
+            
+        </div>
+      </div>
+    </section>
+    <script>
+      document.addEventListener("click", async (elem) => {
+        if (elem.target.className === "geet") {
+          try {
+            const voilationId = elem.target.getAttribute("data_id");
+            // console.log(voilationId);
+            await fetch(`/violations/${voilationId}`, {
+              method: "GET",
+              mode: "cors",
+              cache: "no-cache",
+              credentials: "same-origin",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              redirect: "follow",
+              referrerPolicy: "no-referrer",
+              // body: JSON.stringify(data),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.status == "success") {
+                  Swal.fire({
+                    html: `
+          <p style=" margin-top:1rem; direction: rtl;text-align: start; font-weight: 600;" >نوع المخالفة  : ${data.doc.violation.type}<p>
+           <p style="  direction: rtl;text-align: start;font-weight: 600; ">اسم المنطقة : ${data.doc.Location.region}<p>
+                     <p style="  direction: rtl;text-align: start; font-weight: 600;" >   اسم الشارع  :  ${data.doc.Location.start}<p>
+                     
+                       <p style="  direction: rtl;text-align: start;font-weight: 600; " >اسم الشرطي  :  ${data.doc.user.name}<p>
+                       <p style="  direction: rtl;text-align: start; font-weight: 600;" >  تاريخ المخالفة  :   ${data.doc.createdAt}<p>
+                        <p style="  direction: rtl;text-align: start;font-weight: 600;">صورة عن المخالفة :
+                   <img src="/img/${data.doc.photo}" alt=" لم يتم اضافة" style="direction: rtl;text-align: start;width:100%; height:200px ;"><p>`,
+                    showCloseButton: true,
+                    confirmButtonColor: "#068331",
+                    confirmButtonText: "حسنا",
+                    showClass: {
+                      popup: "animate__animated animate__fadeInDown",
+                    },
+                    hideClass: {
+                      popup: "animate__animated animate__fadeOutUp",
+                    },
+                  });
+                } else {
+                  Swal.fire({
+                    text: data.message,
+
+                    confirmButtonColor: "#068331",
+                    confirmButtonText: "حسنا",
+                    showClass: {
+                      popup: "animate__animated animate__fadeInDown",
+                    },
+                    hideClass: {
+                      popup: "animate__animated animate__fadeOutUp",
+                    },
+                  });
+                }
+              });
+          } catch (err) {
+            console.log(err);
+          }
+        }
+      });
+
+      /////////////////////////////////////////
+      document.addEventListener("click", (elem) => {
+        // console.log(elem.target.className);
+        let classs;
+        if (elem.target.classList.contains("delete")) {
+          classs = "delete";
+        } else {
+          if (elem.target.classList.contains("true")) {
+            classs = "true";
+          } else if (elem.target.classList.contains("false")) {
+            classs = "false";
+          }
+        }
+        switch (classs) {
+          case "delete": {
+            elem.preventDefault();
+            fetch(`/review/${elem.target.getAttribute("data-idreview")}`, {
+              method: "DELETE",
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                // alert("تم اذالة المراجعة");
+                Swal.fire({
+                  title: " تم إزالة المراجعة",
+
+                  icon: "success",
+                  confirmButtonColor: "#068331",
+                  confirmButtonText: "تم",
+                  timer: 2500,
+                  showClass: {
+                    popup: "animate__animated animate__fadeInDown",
+                  },
+                  hideClass: {
+                    popup: "animate__animated animate__fadeOutUp",
+                  },
+                });
+                setTimeout(function () {
+                  window.location.href = "/view/admin/review";
+                }, 3000);
+
+                // window.location.href = "/view/admin/review";
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+            break;
+          }
+          case "true": {
+            elem.preventDefault();
+            fetch(`/review/${elem.target.getAttribute("data-idreview")}`, {
+              method: "DELETE",
+            }).catch((err) => {
+              console.log(err);
+            });
+            fetch(
+              `/violations/${elem.target.getAttribute("data-idviolations")}`,
+              {
+                method: "DELETE",
+              }
+            )
+              .then((response) => response.json())
+              .then((data) => {
+                // alert("تم الموافقة على الإعتراض");
+                Swal.fire({
+                  title: "تم الموافقة على الاعتراض",
+
+                  icon: "success",
+                  confirmButtonColor: "#068331",
+                  confirmButtonText: "تم",
+                  timer: 2500,
+                  showClass: {
+                    popup: "animate__animated animate__fadeInDown",
+                  },
+                  hideClass: {
+                    popup: "animate__animated animate__fadeOutUp",
+                  },
+                });
+                setTimeout(function () {
+                  window.location.href = "/view/admin/review";
+                }, 3000);
+                // window.location.href = "/view/admin/review";
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+            break;
+          }
+          case "false": {
+            elem.preventDefault();
+            fetch(`/review/${elem.target.getAttribute("data-idreview")}`, {
+              method: "DELETE",
+            }).catch((err) => {
+              console.log(err);
+            });
+            fetch(
+              `/messag/violations/${elem.target.getAttribute(
+                "data-idviolations"
+              )}`,
+              {
+                method: "DELETE",
+              }
+            )
+              .then((response) => response.json())
+              .then((data) => {
+               
+                // alert("تم اذالة المراجعة");
+                Swal.fire({
+                  title: " تم إزالة المراجعة",
+
+                  icon: "success",
+                  confirmButtonColor: "#068331",
+                  confirmButtonText: "تم",
+                  timer: 2500,
+                  showClass: {
+                    popup: "animate__animated animate__fadeInDown",
+                  },
+                  hideClass: {
+                    popup: "animate__animated animate__fadeOutUp",
+                  },
+                });
+                setTimeout(function () {
+                  window.location.href = "/view/admin/review";
+                }, 3000);
+              
+                // window.location.href = "/view/admin/review";
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+            break;
+          }
+        }
+      });
+      //////////////////////////////////////////////////////////////////////
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+      integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

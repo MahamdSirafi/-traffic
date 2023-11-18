@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تعدبل بينات المركبة</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+      crossorigin="anonymous" />
+   
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  
+
+    <link rel="stylesheet" href="sweetalert2.min.css">
+
+    <link rel="stylesheet" href="/styles.css" />
+
+  </head>
+
+  <body>
+    <%- include(".././partials/headerEmp") %>
+    <div class="container">
+      <div class="row mt-5" >
+   
+        <form class="updateLicense emp col-lg-6 offset-lg-3 mt-5">
+          <div class="row" dir="rtl">
+            <div class="officer-form  emp-form  col-lg-8 col-sm-4 ">
+              <label for="number"> رقم الرخصة</label>
+              <input class="mt-3 ml-3" required type="number" name="number" id="number"/>
+            </div>
+           <div class="col-lg-2  col-sm-1 mt-5 dat1" >
+            <button class="getLicense   " >بحث</button>
+           </div>
+          </div>
+    <div class="row" dir="rtl">
+          <div class="officer-form  emp-form col-lg-8 col-sm-6">
+            <label for="class"> الفئة</label>
+            <input
+            list="classes"
+            name="class" id="class"
+            required
+          />
+          <datalist id="classes">
+            <option value=""></option>
+            <option value="أ"></option>
+            <option value="ه"></option>
+            <option value="و"></option>
+            <option value="د"></option>
+            <option value="ج"></option>
+          </datalist>
+          </div>
+        
+     </div>
+     <div class="row" dir="rtl">
+          <div class="officer-form  emp-form col-lg-8">
+            <label for="expiryDate"> تاريخ إنتهاء الرخصة</label>
+            <input type="text" disabled  name="expiryDate" id="expiryDate" />
+          </div>
+        </div>
+        <div class="row">
+          
+          <div class="officer-form col-lg-5 ml-5">
+            <button class="updateExpiryDate " >تجديد الشهادة</button>
+          </div>
+        <div class="officer-form col-lg-5 ">
+          <button class="updateClass pl-4 pr-4"  >تعديل الفئة</button>
+        </div>
+      
+      
+        </div>
+        </form>
+      </div>
+    </div>
+
+
+    <script>
+      //     const hideAlert = () => {
+      //     const el = document.querySelector(".alert");
+      //     if (el) el.parentElement.removeChild(el);
+      //    }; // type is 'success' or 'error'
+      //    const showAlert = (type, msg, time = 7) => {
+      //        hideAlert();
+      //        const markup = `<div class="alert alert--${type}">${msg}</div>`;
+      //        document.querySelector("body").insertAdjacentHTML("afterbegin", markup);
+      //        window.setTimeout(hideAlert, time * 1000);
+      //     };
+
+      //get license
+      let classs = document.getElementById("class");
+      let expiryDate = document.getElementById("expiryDate");
+      let getLicense = document.querySelector(".getLicense");
+      getLicense.addEventListener("click", async () => {
+        event.preventDefault();
+        const data = { number: document.getElementById("number").value };
+        try {
+          await fetch(`/view/emp/license/update`, {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify(data),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.status == "success") {
+                expiryDate.value = data.License.expiryDate;
+                classs.value = data.License.class;
+              } else {
+                expiryDate.value = "";
+                classs.value = "";
+                Swal.fire({
+                  text:data.message,
+            
+                   icon:"error",
+                   confirmButtonColor: '#068331',
+                   showConfirmButton:false,
+         timer:2500,
+       showClass: {
+         popup: 'animate__animated animate__fadeInDown'
+       },
+       hideClass: {
+         popup: 'animate__animated animate__fadeOutUp'
+       }
+                 })
+                // showAlert("error",data.message);
+              }
+            });
+        } catch (err) {
+          console.log(err);
+        }
+      });
+
+      //update class
+      let updateClass = document.querySelector(".updateClass");
+      updateClass.addEventListener("click", async () => {
+        event.preventDefault();
+
+        let data = {
+          number: document.getElementById("number").value,
+          class: document.getElementById("class").value,
+        };
+        try {
+          await fetch(`/view/emp/license/updateClass`, {
+            method: "PATCH",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify(data),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.status == "success") {
+                // showAlert("success","لقد تمت العملية بنجاح");
+                Swal.fire({
+       
+       title:" تم تعديل الفئه",
+            
+                   icon:"success",
+                   confirmButtonColor: '#068331',
+                   showConfirmButton:false,
+ 
+       showClass: {
+         popup: 'animate__animated animate__fadeInDown'
+       },
+       hideClass: {
+         popup: 'animate__animated animate__fadeOutUp'
+       }
+                 })
+                expiryDate.value = "";
+                classs.value = "";
+              } else {
+                // showAlert("error",data.message);
+                Swal.fire({
+       
+       title:data.message,
+            
+                   icon:"error",
+                   confirmButtonColor: '#068331',
+       confirmButtonText: 'تم',
+       showClass: {
+         popup: 'animate__animated animate__fadeInDown'
+       },
+       hideClass: {
+         popup: 'animate__animated animate__fadeOutUp'
+       }
+                 })
+                expiryDate.value = "";
+                classs.value = "";
+              }
+            });
+        } catch (err) {
+          console.log(err);
+        }
+      });
+      //update date
+      let updateExpiryDate = document.querySelector(".updateExpiryDate");
+      updateExpiryDate.addEventListener("click", async () => {
+        event.preventDefault();
+        const data = { number: document.getElementById("number").value };
+        try {
+          await fetch(`/view/emp/license/updateDate`, {
+            method: "PATCH",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify(data),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.status == "success") {
+                Swal.fire({
+       
+       title:" تم تجديد الشهادة",
+            
+                   icon:"success",
+                   confirmButtonColor: '#068331',
+                   showConfirmButton:false,
+                   timer:2500,
+       showClass: {
+         popup: 'animate__animated animate__fadeInDown'
+       },
+       hideClass: {
+         popup: 'animate__animated animate__fadeOutUp'
+       }
+                 })
+                 
+                expiryDate.value = "";
+                classs.value = "";
+              } else {
+                alert(data.message);
+                expiryDate.value = "";
+                classs.value = "";
+              }
+            });
+        } catch (err) {
+          console.log(err);
+        }
+      });
+    </script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+  crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+  crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+  integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
+  crossorigin="anonymous"></script>
+  </body>
+</html>

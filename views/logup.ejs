@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Page Title</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class=" col-lg-5  offset-lg-3 form ">
+        <span class="mm">انشاء حساب</span>
+        <form method="post">
+          <div class="form-group ">
+            <input type='text' placeholder='ادخل اسم المستخدم' name="name" id='name' required>
+          </div>
+          <div class="form-group">
+            <input type='text' placeholder='ادخل الرقم الوطني' pattern="[0-9]{11}" name="national_number"
+              id='national_number' required>
+          </div>
+          <div class="form-group">
+            <input type='email' placeholder='ادخل بريدك الالكتروني' name="email" id='email' required>
+          </div>
+          <div class="form-group">
+            <input type='password' placeholder='ادخل كلمة المرور' name="password" id='password' required minlength="8">
+          </div>
+          <div class="form-group">
+            <input type='password' placeholder='اعد كتابة كلمة المرور' name="passwordConfirm" id='passwordConfirm'
+              required minlength="8">
+          </div>
+          <button type="submit" class=" button">انشاء حساب</button>
+        </form>
+      </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+      #map {
+        padding: 1rem;
+        height: 500px;
+        width: 80%;
+        margin: 2rem auto;
+      }
+      .popup {
+        max-width: 50px;
+      }
+    </style>
+  </head>
+  <body>
+   <!----Navbar-->
+   <%- include(".././partials/headeradmin.ejs") %>
+   <br>
+    <div style="margin-top: 50px;" id="map"></div>
+    <section class="admin">
+    <div class="container">
+      <div class="row">
+   
+        <div class="col-lg-5">
+          <canvas id="myChart">
+
+          </canvas>
+        </div>
+       <div class="col-lg-5 offset-lg-2">
+        <canvas id="myChart2">
+
+        </canvas>
+       </div>
+       
+      </div>
+    
+      <div class="row mt-5">
+        <div class="col-lg-5 offset-lg-3 mt-3">
+          <canvas id="myChart3" ></canvas>
+        </div>
+      </div>
+    
+      
+    </div>
+  </section>
+  
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <script>
+
+     var mymap = L.map("map").setView([36.2021, 37.1855], 13);
+
+// إضافة الخريطة من OpenStreetMap.
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+  maxZoom: 18,
+}).addTo(mymap);
+for (var i = 1; i <= 20; i++) {
+  // إنشاء إحداثيات عشوائية.
+  var lat = 36.15 + Math.random() * 0.1;
+  var lng = 37.1 + Math.random() * 0.1;
+
+  // إضافة نافذة منبثقة.
+  let sum = Math.floor(Math.random() * 80);
+var redIcon = L.icon({
+  iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
+
+
+
+if (sum > 30) {
+    var popup = L.popup().setContent(
+        "<strong>مرتفع</strong><br>عدد المخالفات: " + sum
+    );
+    L.marker([lat, lng], {icon: redIcon}).addTo(mymap).bindPopup(popup).openPopup();
+} else {
+    var popup = L.popup().setContent(
+        "<strong>مقبول</strong><br>عدد المخالفات: " + sum
+    );
+    L.marker([lat, lng]).addTo(mymap).bindPopup(popup).openPopup();
+}
+}
+
+      var ctx = document.getElementById("myChart").getContext("2d");
+      var myChart = new Chart(ctx, {
+        type: "bar", //pie
+        data: {
+          labels: ["2018", "2019", "2020", "2021", "2022", "2023"],
+          datasets: [
+            {
+              label: "عدد المخالفات",
+              data: [800, 600, 400, 550, 200, 90],
+              backgroundColor: ["#068331"],
+              borderColor: ["green"],
+              width:[10],
+              borderWidth: 0,
+           
+              fill: false, // عدم تعبئة المنطقة تحت المخطط
+            },
+          ],
+        },
+        options: {
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  min: 0,
+                  max: 1000,
+                  callback: function (value, index, values) {
+                    return value.toLocaleString(); // يعرض الأرقام بتنسيق مناسب
+                  },
+                },
+              },
+            ],
+          },
+        },
+      });
+      //جدول بشهر
+      var ctx2 = document.getElementById("myChart2").getContext("2d");
+      var myChart2 = new Chart(ctx2, {
+        type: "line",
+        data: {
+          labels: [
+            "يناير",
+            "فبراير",
+            "مارس",
+            "أبريل",
+            "مايو",
+            "يونيو",
+            "يوليو",
+            "أغسطس",
+            "سبتمبر",
+            "أكتوبر",
+            "نوفمبر",
+            "ديسمبر",
+          ],
+          datasets: [
+            {
+              label: "عدد المخالفات",
+              data: [50, 70, 90, 80, 60, 40, 30, 20, 10, 20, 30, 40],
+              backgroundColor: ["#B3A943"],
+              borderColor: ["#ddd044"],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  min: 0,
+                  max: 100,
+                  callback: function (value, index, values) {
+                    return value.toLocaleString(); // يعرض الأرقام بتنسيق مناسب
+                  },
+                },
+              },
+            ],
+          },
+        },
+      });
+     
+      //مخطط دائري يمثل اكثر ست مخالفات تكرارا
+      var ctx3 = document.getElementById("myChart3").getContext("2d");
+  
+var myChart3 = new Chart(ctx3, {
+
+  
+  type: "doughnut",
+ 
+
+    data: {
+        labels: [
+        "تسيير المركبة قبل الترخيص لها بالسير",
+            "سوق المركبة بدون حمل اجازة السوق",
+        
+            "تجاوز الاشارة الضوئية",
+            "استخدام الهاتف النقال",
+           
+           
+            "سوق المركبة بدون لوحات",
+            "الوقوف الممنوع",
+        ],
+        datasets: [
+            {
+                label: "عدد المرات",
+                data: [10, 20, 15, 5, 30, 25],
+                backgroundColor: [
+                    "#068331",
+                    "#faebd7",
+                    "#F6F8E2",
+                    "#9CCD62",
+                    "#B3A943",
+                    "rgba(255, 159, 64, 0.6)"
+                ],
+                borderColor: [
+                    "#045f21",
+                    "#d8d1c8",
+                    "#ccceb4",
+                    "#a6e05e",
+                    "#ddd044",
+                    "rgba(255, 159, 64, 1)"
+                ]
+            }
+        ]
+    },
+
+        options: {
+          responsive: true,
+          legend: {
+            display:true,
+          },
+        },
+      });
+    
+    </script>
+     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+</html>

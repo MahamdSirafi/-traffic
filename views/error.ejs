@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+    <link rel="stylesheet" href="sweetalert2.min.css">
+    <link rel="stylesheet" href="/styles.css" />
+
+    <title>error</title>
+</head>
+<body>
+  <input  id="msg" value="<%= msg %>" style="display: none;">
+  <button id="btn" onclick="test()" style="display: none;" value="حسنا"></button>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+ 
+  <script>
+    const model=document.getElementById("msg").value;
+    const btn=document.getElementById("btn").value;
+
+
+//alert(`${model}`)
+Swal.fire({
+                  text:`${model}`,
+                  icon:"error",
+                  showCloseButton: true,
+                  confirmButtonColor: '#068331',
+   
+             
+      showClass: {
+     popup: 'animate__animated animate__fadeInDown'
+  },
+  hideClass: {
+    popup: 'animate__animated animate__fadeOutUp'
+  }
+                }).then((result) => {
+  /* Read more about isConfirmed, isDenied below */
+
+  if (!result.isDenied) {
+ window.history.back();
+  }
+})
+
+         
+
+</script>
+</html>

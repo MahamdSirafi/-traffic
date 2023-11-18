@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>MY ACCOUNT</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="container p-4">
+    <div class="row">
+      <div class="wrapper col-lg-6 offset-lg-4 col-md-6 offset-md-4 col-sm-12 mt-lg-3 offset-sm-3" style="max-width:390px ;">
+        <div class="title-text">
+          <div class="title form4">
+            <img class="img " width="100px" height="100px" style="border-radius: 50%;" src="/img/<%=user.photo%>" alt="">
+            <input  type="file"  id="file" class="photo" style="display: none;"  >
+            <label for="file" class="acount"><i class='bx bx-camera'></i></label>
+         </div>       
+        </div>
+        <div class="form-container">
+          <div class="slide-controls">
+            <input type="radio" name="slide" id="form1" checked>
+            <input type="radio" name="slide" id="form2">
+            <label for="form1" class="slide form1" >اعدادات الحساب</label>
+            <label for="form2" class="slide form2">تغيير كلمة السر</label>
+            <div class="slider-tab"></div>
+          </div>
+          <div class="form-inner">
+            <form  class="form1 userupdate">
+              <div class="field">
+                <input  type='text' placeholder='ادخل اسم المستخدم' name="name" id='name' value="<%= user.name %>">
+
+              </div>
+              <div class="field">
+                <input  type='text' placeholder='ادخل الرقم الوطني' disabled name="national_number" id='national_number' value=<%= user.national_number %> >
+
+              </div>
+              <div class="field">
+                <input  type='email' placeholder='ادخل البريد الالكتروني ' name="email" id='email' value=<%= user.email %>>
+              </div>
+             
+            
+       <div class="btn">
+        <button class="save btn-layer" >حفظ الاعدادت</button>
+       </div>
+             
+            
+              
+            </form>
+        
+            <form  class="form2 passwordupdate">
+              <div class="field">
+                <input  type='password' placeholder='ادخل كلمة السر القديمة' name="passwordCurrent" id='passwordCurrent'>
+              </div>
+              <div class="field">
+                <input  type='password' placeholder='ادخل كلمة السر الجديدة' name="password" id='password'>
+
+              </div>
+              <div class="field">
+                <input  type='password' placeholder='تاكيد كلمة السر' name="passwordConfirm" id='passwordConfirm'>
+
+              </div>
+             
+              <div class="btn">
+                <button class="change btn-layer" >تغيير</button>
+              </div>
+             
+             
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+       <script>
+        //save
+        let photo1=document.querySelector(".photo");
+
+        let img=document.querySelector(".img");
+        let userupdate=document.querySelector(".userupdate");
+        let  name1,email,national_number1,photo;  
+        userupdate.addEventListener("submit",()=>{
+          // console.log(save);
+          // console.log(photo1);
+          event.preventDefault();
+          let photo2=photo1.value.split("\\")[2]+""
+          // console.log(photo2+photo2.length);
+          if(photo2!="undefined"){
+           photo1=photo1.value.split("\\")[2];
+          //  console.log(photo1);       
+          }else{
+            photo1= img.src.split("/")[4];
+            // console.log(photo1);
+            
+          }
+                  // img.src=`/img/${photo1}`;
+                  name1=document.getElementById("name").value;
+                  email1=document.getElementById("email").value;
+                  national_number1=document.getElementById("national_number").value;
+                    let data={name:`${name1}`,
+                    email:`${email1}`,
+                    national_number:`${national_number1}`,
+                    photo:`${photo1}`
+                  }
+                  try{
+                     fetch("http://localhost:8500/users/updateMe", { method: 'PATCH', 
+                     mode:"cors",
+                     cache:"no-cache",
+                     credentials:"same-origin",
+                     headers:{
+                        'Content-Type':'application/json'
+                     },
+                     redirect:"follow",
+                     referrerPolicy:"no-referrer",
+                     body:JSON.stringify(data)}).then((response) => response.json()).then((data) => {
+            window.location.href = data.url
+        // console.log(data.mylink);
+        });
+                    }catch(err){
+                      console.log(err);
+                    }
+                  })
+             //CHANGE password
+                 let passwordupdate=document.querySelector(".passwordupdate");
+                 
+                 let  passwordCurrent1,password1,passwordConfirm1;              
+                 passwordupdate.addEventListener("submit",()=>{
+                  event.preventDefault();
+                  // console.log(change);
+                  passwordCurrent1=document.getElementById("passwordCurrent").value;
+                  password1=document.getElementById("password").value;
+                  passwordConfirm1=document.getElementById("passwordConfirm").value;
+                    let data={passwordCurrent:`${passwordCurrent1}`,
+                    password:`${password1}`,
+                    passwordConfirm:`${passwordConfirm1}`
+                  }
+                  try{
+                     fetch("http://localhost:8500/users/updateMyPassword", { method: 'PATCH', 
+                     mode:"cors",
+                     cache:"no-cache",
+                     credentials:"same-origin",
+                     headers:{
+                        'Content-Type':'application/json'
+                     },
+                     redirect:"follow",
+                     referrerPolicy:"no-referrer",
+                     body:JSON.stringify(data)}).then((response) => response.json()).then((data) => {
+                      // console.log("change");
+                      window.location.href = data.url
+        // console.log(data.mylink);
+        });
+                }catch(err){
+console.log(err);
+                }
+              })
+       </script>
+<script src="/main.js"></script>
+</body>
+</html>

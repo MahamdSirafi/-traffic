@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>تسجيل رخصة قيادة</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+
+  <body>
+    <%- include(".././partials/headerEmp") %>
+    <section class="employy">
+      <div class="container">
+        <div class="row mt-3">
+          <form class="col-lg-8 offset-lg-2 p-4 postcar emp mt-5" method="post">
+            <div class="row">
+              <div class="officer-form col-lg-5 mr-4">
+                <label for=""> رقم الرخصة</label>
+                <input
+                  type="text"
+                  pattern="[0-9]{6}"
+                  name="number"
+                  id="number"
+                  required
+                />
+              </div>
+              <div class="officer-form col-lg-5">
+                <label for=""> الإسم الثلاثي لصاحب الإجازة</label>
+
+                <input type="text" name="name" id="name" required />
+              </div>
+              <div class="officer-form col-lg-5 mr-4">
+                <label for=""> فئة الرخصة</label>
+
+                <input
+                  list="classes"
+                  id="class"
+                  class="mt-2 mr-5"
+                  style="width: 100%"
+                  name="class"
+                  required
+                />
+                <datalist id="classes">
+                  <option value=""></option>
+                  <option value="أ"></option>
+                  <option value="ه"></option>
+                  <option value="و"></option>
+                  <option value="د"></option>
+                  <option value="ج"></option>
+                </datalist>
+              </div>
+              <div class="officer-form col-lg-5">
+                <label for=""> القيد المدني</label>
+                <input type="text" name="root" id="root" required />
+              </div>
+              <div class="officer-form col-lg-5 mr-4">
+                <label for=""> الرقم الوطني</label>
+                <input
+                  type="number"
+                  name="national_number"
+                  id="national_number"
+                  required
+                />
+              </div>
+              <div class="officer-form col-lg-5">
+                <label for=""> الجنسية</label>
+                <input
+                  type="text"
+                  name="nationality"
+                  id="nationality"
+                  required
+                />
+              </div>
+
+              <div class="officer-form col-lg-5 mr-4">
+                <label for=""> زمرة الدم</label>
+                <input type="text" name="bloodType" id="bloodType" required />
+              </div>
+              <div class="officer-form col-lg-5">
+                <label for=""> التولد</label>
+                <input type="date" name="birthDate" id="birthDate" required />
+              </div>
+              <div class="officer-form m-auto mt-2">
+                <button class="mr-5">انشاء رخصة القيادة</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    <script
+      src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+      integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

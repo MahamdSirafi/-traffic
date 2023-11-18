@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تعدبل بينات المركبة</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+
+<body>
+  <%- include(".././partials/headerEmp") %>
+    <div class="container mt-5" >
+      <div class="row mt-5">
+        <div class="wrapper col-lg-6 offset-lg-3 mt-5" >
+          <div class="form-container">
+            <div class="slide-controls">
+              <input type="radio" name="slide" id="form1" checked>
+              <input type="radio" name="slide" id="form2">
+              <label for="form1" class="slide form1">تعديل الملكية</label>
+              <label for="form2" class="slide form2">تعديل بيانات المركبة</label>
+              <div class="slider-tab"></div>
+            </div>
+            <div class="form-inner">
+              <form class="form1 updateowner p-1 " data-id="<%= newcar.plate_number %>">
+                <div class="form-group1">
+                  <label for="">الرقم الوطني</label>
+                  <input pattern="[0-9]{11}" type='text'  name="national_number" id='national_number'required 
+                    value="<%=newcar.national_number %>">
+                </div>
+                <div class="form-group1">
+                  <label for=""> مالك المركبة</label>
+                  <input type="text" id="owner" name="owner"  required  value="<%=newcar.owner %>">
+                </div>
+                <div class="officer-form">
+                  <button class="save traffic-button pl-4 m-auto">تعديل الملكية </button>
+                </div>
+              </form>
+              <form class="form2 p-1 updatecar" data-id="<%= newcar.plate_number %>">
+                <div class="d-flex">
+                <div class="form-group1">
+                  <label for="">رقم الهيكل</label>
+                  <input type="text" placeholder='ادخل رقم هيكل المركبة' name="structure_number" id='structure_number'
+                    value="<%= newcar.structure_number %>">
+                </div>
+                <div class="form-group1">
+                  <label for="">اللون</label>
+                  <input type="text" id="color" name="color" placeholder="اللون" value="<%= newcar.color %>">
+                </div>
+              </div>
+              <div class="d-flex">
+                <div class="form-group1">
+                  <label for="">فئه المركبة</label>
+                  <input type='text' placeholder='ادخل فئة المركبة ' name="class" id='class'
+                    value="<%= newcar.class %>" >
+                </div>
+                <div class="form-group1">
+                  <label for="">نوع الوقود</label>
+                  <input type="text" id="fuelType" name="fuelType" placeholder="نوع الوقود"
+                    value="<%= newcar.fuelType %>">
+                </div>
+              </div>
+              <div class="d-flex">
+                <div class="form-group1">
+                  <label for="">رقم المحرك</label>
+                  <input type="text" id="sngine_number" name="sngine_number" placeholder="رقم المحرك"
+                    value="<%= newcar.sngine_number %>">
+                </div>
+                <div class="form-group1">
+                  <label for="">سعة المحرك</label>
+                  <input type="number" id="engineCapacity" name="engineCapacity" placeholder="سعة المحرك"
+                    value="<%= newcar.engineCapacity %>">
+                </div>
+              </div>
+                <div class="officer-form">
+                  <button class="change traffic-button m-auto">تثبيت التعديلات</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      //update owner
+      let updateowner = document.querySelector(".updateowner");
+      updateowner.addEventListener("submit", () => {
+        event.preventDefault();
+        try {
+          let plate_number = updateowner.getAttribute("data-id");
+          let data =
+          {
+            owner: document.getElementById("owner").value,
+            national_number: document.getElementById("national_number").value,
+          }
+          fetch(`http://localhost:8500/view/emp/updatecar/${plate_number}`, {
+            method: 'PATCH',
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify(data)
+          }).then((response) => response.json()).then((data) => {
+            window.location.href = data.mylink
+            // console.log(data.mylink);
+          });
+
+        } catch (err) {
+          console.log(err);
+        }
+      });
+      //update car
+      let updatecar = document.querySelector(".updatecar");
+      updatecar.addEventListener("submit", () => {
+        event.preventDefault();
+        try {
+          let plate_number = updatecar.getAttribute("data-id");
+          let data =
+          {
+            class: document.getElementById("class").value,
+            sngine_number: document.getElementById("sngine_number").value,
+            structure_number: document.getElementById("structure_number").value,
+            color: document.getElementById("color").value,
+            fuelType: document.getElementById("fuelType").value,
+            engineCapacity: document.getElementById("engineCapacity").value
+          }
+          fetch(`http://localhost:8500/view/emp/updatecar/${plate_number}`, {
+            method: 'PATCH',
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify(data)
+          }).then((response) => response.json()).then((data) => {
+            Swal.fire({
+       
+       title:" تم تعديل المركبة بنجاح",
+             
+          
+                   icon:"success",
+                   confirmButtonColor: '#068331',
+       confirmButtonText: 'تم',
+       timer:2500,
+       showClass: {
+    popup: 'animate__animated animate__fadeInDown'
+  },
+  hideClass: {
+    popup: 'animate__animated animate__fadeOutUp'
+  }
+                 })
+                 setTimeout(function(){   
+                  window.location.href = data.mylink
+      },3000) ;
+            // console.log(data.mylink);
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      })
+    </script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+  crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+  crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+  integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
+  crossorigin="anonymous"></script>
+</body>
+
+</html>

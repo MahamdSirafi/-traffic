@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>تسجيل الدخول</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="sweetalert2.min.css">
+
+</head>
+
+    <div class="container">
+        <div class="row  ">
+            <div class="col-lg-5 offset-lg-3 col-sm-9 offset-sm-2 form">
+                <span class="mm">سجل دخول</span>
+                <form  method="post">
+                    <div class="form-group ">
+                        <input type='Email' placeholder='ادخل البريد الالكتروني' name="email" id='Email' required>
+                    </div>
+                    <div class="form-group ">
+                        <input type='password' placeholder='ادخل كلمة المرور' name="password" id='password' minlength="8" required>
+                        <div class="btnn" id="btnn" style="background-color: white;"><i class='bx bxs-low-vision toggle' ></i>
+                           </div>
+                    </div>
+                    <div class='ForgotPassword mt-4 ' style="color: #068331;"> هل نسيت كلمة المرور؟</div>
+                    <button class="submit  button">تسجيل الدخول</button>
+                    <div class='social'>
+                        <a href="/users/signup" style="color: #068331;" class="pt-3 pl-3 pr-3 pb-1"> مستخدم جديد؟</a>
+                    </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- <script src="/js/login.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+    let ForgotPassword = document.querySelector(".ForgotPassword");
+        let email1;
+        ForgotPassword.addEventListener("click", () => {
+          email1 = document.getElementById("Email").value;
+          let data = { email: `${email1}` };
+          fetch("/users/forgotPassword", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify(data),
+          })
+         .then((response) => response.json())
+            .then((data) =>{
+                if(data.status=='success')
+                {
+            Swal.fire({
+              text: "لقد تم إرسال رمز إعادة التعيين كلمة السر الى البريد الألكتروني الخاص بك الرجاء التحقق منه ",
+              confirmButtonColor: "#068331",
+              confirmButtonText: "حسنا",
+              showClass: {
+                popup: "animate__animated animate__fadeInDown",
+              },
+              hideClass: {
+                popup: "animate__animated animate__fadeOutUp",
+              },   
+            });
+        }
+         else{
+            Swal.fire({
+              text:`${data.message}`,
+              icon:"error",
+                  showCloseButton: true,
+                  confirmButtonColor: '#068331',
+                showClass: {
+                popup: "animate__animated animate__fadeInDown",
+              },
+              hideClass: {
+                popup: "animate__animated animate__fadeOutUp",
+              },   
+            });
+        };
+    })
+        // window.location.href = data.url;
+        }).catch((err) => {
+            console.log(err);
+        });
+     
+/*
+  const btnn = document.getElementById("btnn");
+  const pass = document.getElementById("password");
+  const icon = document.querySelector('.icon');
+  btnn.addEventListener('click', function () {
+    if(pass.type === 'password'){
+    pass.type='text';
+    icon.classList.remove('bxs-low-vision');
+    icon.classList.add('bxs-show');
+  
+    }else{
+        pass.type='password';
+        icon.classList.add('bxs-show');
+    icon.classList.remove(' bxs-low-vision');
+    }
+
+  */
+ const toggle=document.querySelector(".toggle");
+ const pass = document.getElementById("password");
+ toggle.addEventListener("click",()=>{
+    if(pass.type==='password'){
+        pass.type='text';
+        toggle.classList.replace("bxs-low-vision","bxs-show");
+    }
+    else{
+        pass.type="password";   
+        toggle.classList.replace("bxs-show","bxs-low-vision");
+    }
+ });
+</script>
+</body>
+</html>

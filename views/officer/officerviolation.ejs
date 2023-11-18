@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>تسجيل مخالفة</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" type="text/css" media="screen" href="/styles.css" />
+  </head>
+  <body>
+    <!---تضمين النافبار-->
+    <%- include(".././partials/headerofficer.ejs") %>
+    <div class="valoionsss">
+      <div class="container">
+        <div class="row">
+          <form
+            class="col-lg-6 offset-lg-3 offset-md-3 col-md-9 col-sm-12 mt-1 off nott pt-4 pr-5"
+            method="post"
+          >
+            <div class="row d-flex">
+              <div
+                class="col-lg-5 col-md-12 off1 mt-3"
+                style="margin-right: 1rem"
+              >
+                <input
+                  type="string"
+                  name="plate_number"
+                  id="plate_number"
+                pattern="[0-9]{6}"
+                required />
+                 <!-- placeholder="مؤلف من ست ارقام" -->
+                <label for="plate_number">ادخل رقم اللوحة</label>
+              </div>
+              <div
+                class="col-lg-5 col-md-12 off1 mt-3"
+                style="margin-left: 3rem"
+              >
+                <label for="city">ادخل اسم المحافظة</label>
+                <input id="city" list="citys" required />
+                <datalist id="citys">
+                  <option value=""></option>
+                  <option value="حلب"></option>
+                  <option value="حماة"></option>
+                  <option value="ادلب"></option>
+                  <option value="سويداء"></option>
+                  <option value="دمشق"></option>
+                  <option value="ريف دمشق"></option>
+                  <option value="حمص"></option>
+                  <option value="اللاذقية"></option>
+                  <option value="طرطوس"></option>
+                  <option value="الحسكة"></option>
+                  <option value="قنيطرة"></option>
+                </datalist>
+              </div>
+            </div>
+            <div class="row officer-form1">
+              <label for="violation">ادخل نوع المخالفة</label><br />
+              <input
+                list="violations"
+                id="violation"
+                class="select-label"
+                required
+              />
+              <datalist id="violations">
+                <option vlaue=""></option>
+                <option value="الوقوف في مكان ممنوع"></option>
+                <option value="تجاوز الاشارة الضوئية"></option>
+                <option value="حادث سير"></option>
+                <option value="استخدام الهاتف النقال"></option>
+                <option value="تجاوز السرعةالمحددة"></option>
+                <option value="سوق المركبة بدون اجازة السوق"></option>
+              </datalist>
+            </div>
+            <div class="row officer-form1">
+              <label for="region">ادخل منطقة حدوث المخالفة </label>
+              <input
+                list="regions"
+                name="region"
+                id="region"
+                class="select-label"
+                required
+              />
+              <datalist id="regions">
+                <option value=""></option>
+                <option value="الفرقان"></option>
+                <option value="الشهباء"></option>
+                <option value="موكامبو"></option>
+                <option value="حلب الجديدة"></option>
+                <option value="الاعظمية"></option>
+                <option value="صلاح الدين"></option>
+                <option value="الحمدانية"></option>
+                <option value="الزهراء"></option>
+                <option value="ادونيس"></option>
+              </datalist>
+            </div>
+            <div class="row officer-form1">
+              <label for="start">ادخل الشارع </label>
+              <input
+                list="starts"
+                name="start"
+                id="start"
+                class="select-label"
+                required
+              />
+              <datalist id="starts">
+                <option value=""></option>
+                <option value="شارع الاكسبريس"></option>
+                <option value="شارع بدر"></option>
+                <option value="شارع المحلق"></option>
+              </datalist>
+            </div>
+            <div class="row officer-form1">
+              <label for="license">ادخل رقم الرخصة </label>
+              <input type="number" name="license" id="license" required />
+            </div>
+            <div class="row mt-2 officer-form1">
+              <label for="input-imagee">ادخل صورة المخالفة </label>
+
+              <input
+                type="file"
+                id="input-image"
+                class="photo mt-5"
+                style="width: 85%; margin-left: 5rem"
+              />
+            </div>
+            <div class="row officer-form" style="margin-left: 4rem">
+              <button class="m-auto" style="width: 80%">تسجيل المخالفة</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- <button id="btn" onclick="test()" style="display: none;" value="حسنا"></button> -->
+
+    <script>
+      let violation, plate_number, region, image, start;
+      let form = document.querySelector(".nott");
+      form.addEventListener("submit", () => {
+        event.preventDefault();
+        violation = document.getElementById("violation").value;
+        plate_number =
+          document.getElementById("plate_number").value +
+          " " +
+          document.getElementById("city").value;
+        console.log(plate_number);
+        region = document.getElementById("region").value;
+        start = document.getElementById("start").value;
+        license = document.getElementById("license").value;
+        if (document.getElementById("input-image").value)
+          image = String(document.getElementById("input-image").value).split(
+            "\\"
+          )[2];
+        else {
+          image = "non";
+        }
+        license = parseInt(license);
+        let data = {
+          violation: `${violation}`,
+          plate_number: `${plate_number}`,
+          region: `${region}`,
+          start: `${start}`,
+          photo: `${image}`,
+          license,
+        };
+        try {
+          console.log(data);
+          fetch("http://localhost:8500/view/officer", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify(data),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.status == "success") window.location.href = data.url;
+              else {
+                Swal.fire({
+                  title: `${data.message}`,
+                  icon: "error",
+                  confirmButtonColor: "#068331",
+                  showConfirmButton: false,
+                  timer: 5000,
+                  showClass: {
+                    popup: "animate__animated animate__fadeInDown",
+                  },
+                  hideClass: {
+                    popup: "animate__animated animate__fadeOutUp",
+                  },
+                });
+              }
+            });
+        } catch (err) {
+          console.log(err);
+        }
+      });
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+      integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </body>
+</html>

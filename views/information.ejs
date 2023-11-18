@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles.css" />
+    <title>تعليمات مرورية</title>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top p-4 ">
+    <% if(!(locals.user.role=="user") ){ %>
+      <img src="/img/am.jpg" class="img11">
+      <% } %>
+    <% if(locals.user.role=="user" ){ %>
+      <ul class="home-img">
+        <li class="mb-3"><a href="/view/me">
+            <section><img class="img ml-2 mt-0" width="30px" height="30px" style="border-radius: 50%;"
+                src="/img/<%=user.photo%>" alt="">
+              <%=user.name%>
+          </a></li>
+      </ul>
+      <div class="send"> <ul> <li class="nav-item mt-1"><a href="/messag" class="massaga-a mr-4" ><i
+        class='bx bx-envelope'></i>
+     <span  ><%= locals.unreadCount %></span> 
+    </a></li>
+  </ul>
+ </div>
+      <% } %>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon m-auto"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-space-between" id="navbarNav">
+          <ul class=" navbar-nav ml-auto ">
+            <% if(locals.user.role=="user" ){ %>
+         
+
+            <!----modal-->
+            <button type="button" class=" mb-2 mod-btn" data-toggle="modal" data-target="#exampleModal">
+              تسجيل خروج
+              </button>
+            <div class="modal fade mt-3" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog ">
+                <div class="modal-content">
+                  <div class="modal-header">
+                   
+                    <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p>هل انت حقا تريد تسجيل الخروج</p>
+                  </div>
+                  <div class="modal-body">
+             
+                 
+                   
+                   <button> <li><a href="/users/logout">نعم</a></li></button>
+                   <button><li ><a href=" ">لا</a></li></button> 
+                 
+                  </div>
+                 
+                </div>
+              </div>
+            </div>
+              <li class="nav-item  mt-2"><a href="/view/user/violation">المخالفات</a></li>
+         
+              <% } %>
+                <li class="nav-item  mt-2"><a href="/view/user/services">الخدمات</a></li>
+        
+                <li class="dropdown nav-item mt-2 ml-2">
+                  <button class="dropdown-toggle "  data-toggle="dropdown" aria-expanded="false" >
+                    <a href="/view/information"> معلومات</a>
+                  </button>
+                  <div class="dropdown-menu mr-5">
+                    <a class="dropdown-item pt-2" href="#rull">القوانين المرورية</a>
+                    <a class="dropdown-item pt-2" href="#rull2">اللافتات المروريه</a>
+                    <a class="dropdown-item" href="#rull3">انواع المخالفات</a>
+                  </div>
+
+                </li>
+                
+             
+                <li class="nav-item  mt-2"><a href="/view"> الصفحة الرئيسية</a></li>
+          </ul>
+        </div>
+  </nav>
+
+
+      <section class="img1" id="rull">
+        <div class="container">
+          <h3 class="rul-h3">القوانين المرورية</h3>
+          <div class="underline"></div>
+          <div class="row">
+
+         
+            <div class="col-lg-4 col-md-6 col-sm-12 ">
+         
+                    <div class="div-icon ">
+                        <p >الالتزام بالحد الاقصى للسرعة المحددة على الطرق </p>
+                      
+                      </div>
+             
+                      <div class="div-icon ">
+                        <p> الالتزام بالاشارات المرورية والاشارات الضوئية</p>
+                    
+                     </div>
+                     <div class="div-icon ">
+                      <p >عدم ركب السيارة في أماكن غير مسموح بها</p>
+                     
+               
+                   </div>
+                   </div>
+                   <div class="col-lg-4 col-md-6  offset-lg-4 mt-2 col-sm-12">
+                   <div class="div-icon ">
+                    <p >عدم استخدام الهاتف المحمول أثناء القيادة</p>
+                     
+                   
+                  
+                   </div>
+                   <div class="div-icon ">
+                    <p >عدم القيادة بدون شهادة سواقة</p>
+                   
+                   </div>
+                   <div class="div-icon ">
+                    <p > ارتداء حزام الامان أثناء القيادة</p>
+                   
+                    
+         
+                   </div>
+                   </div>
+                  </div>
+
+                  <div class=" link  mt-5">
+                    <div class=" col-lg-6  offset-lg-5">
+                      <a style="color:rgb(25, 103, 15); margin-left:-20rem; text-decoration:underline; " href="https://www.google.com/search?q=%D8%A7%D9%84%D9%82%D9%88%D8%A7%D9%86%D9%8A%D9%86+%D8%A7%D9%84%D9%85%D8%B1%D9%88%D8%B1%D9%8A%D9%87+%D9%81%D9%8A+%D8%B3%D9%88%D8%B1%D9%8A%D8%A7&oq=&aqs=chrome.1.35i39i362l8.75038821j0j15&sourceid=chrome&ie=UTF-8">معرفة اكثر عن القوانين</a>
+    
+                    </div>
+                  </div>
+                  
+                </div>
+            
+          
+        </section>
+
+          <section class="about-us-section " id="rull2">
+            <div class="container" >
+            
+            <h3 class=" about-c">اللافتات المرورية</h3>
+            <div class="underline"></div>
+          
+        
+       
+            
+            <div class="row mt-5 ml-4" style="gap:1.5rem ;">
+              <div class="col-lg-2  col-sm-4 offset-md-1 single mb-3 ">
+                <img src="/img/a11.jpg" alt="">
+              
+               <P>الطريق يضيق من اليمين</P>
+              </div>
+           
+                <div class="col-lg-2 col-sm-4 single mb-3">
+                  <img src="/img/a8.jpg" alt="">
+              
+                  <P> نهاية الطريق المزدوج</P>
+                </div>
+          
+                <div class=" col-lg-2  col-sm-4  single mb-3">
+               
+                  <img src="/img/aaa.jpg" alt="">
+              
+                  <P>منطقة تسير على اتجاهين</P>
+                </div>
+                <div class=" col-lg-2 col-sm-4 single  mb-3">
+               
+                  <img src="/img/a7.jpg" alt="">
+              
+                  <P>وجهة سير مستديرة</P>
+          
+           
+            </div>
+                </div>
+                <div class=" row ml-4 " style="gap:1.5rem ;">
+                  <div class="col-lg-2  col-sm-4 offset-md-1 single mb-3 ">
+                    <img src="/img/a9.jpg" alt="">
+                  
+                   <P>ممنوع الدوران الى الخلف</P>
+                  </div>
+                    <div class="col-lg-2 col-sm-4 single mb-3">
+                      <img src="/img/a5.jpg" alt="">
+                      <P> ممنوع الوقوف قطعيا</P>
+                    </div>
+              
+                    <div class=" col-lg-2  col-sm-4  single mb-3">
+                   
+                      <img src="/img/vv.jpg" alt="">
+                  
+                      <P>ممنوع الدخول</P>
+                    </div>
+                    <div class=" col-lg-2 col-sm-4 single  mb-3">
+                   
+                      <img src="/img/ww.jpg" alt="">
+                  
+                      <P>ممنوع التجاوز لجميع المركبات</P>
+              
+               
+                </div>
+                    </div>
+                    <div class=" row ml-4 " style="gap:1.5rem ;">
+                      <div class="col-lg-2  col-sm-4 offset-md-1 single mb-3 ">
+                        <img src="/img/ab.jpg" alt="">
+                      
+                       <P>جسر ضيق</P>
+                      </div>
+                   
+                        <div class="col-lg-2  col-sm-4 single mb-3">
+                          <img src="/img/cv.jpg" alt="" class="mt-2">
+                      
+                          <P > منعطف لليمين</P>
+                        </div>
+                  
+                        <div class="col-lg-2  col-sm-4  single mb-3">
+                       
+                          <img src="/img/mk.jpg" alt="">
+                      
+                          <P>منعطفات خطرة من اليمين لليسار</P>
+                        </div>
+                        <div class=" col-lg-2   col-sm-4 single mb-3">
+                       
+                          <img src="/img/tt.jpg" alt="">
+                      
+                          <P>تساقط حجارة من اليمين</P>
+                  
+                   
+                    </div>
+                        </div>
+                        <div class=" row ml-4" style="gap:1.5rem ;">
+                          <div class="col-lg-2  col-sm-4 offset-md-1 single mb-3 ">
+                            <img src="/img/qa.jpg" alt="">
+                          
+                           <P>ممنوع مرور المشاة</P>
+                          </div>
+                       
+                            <div class="col-lg-2  col-sm-4 single mb-3">
+                              <img src="/img/qq.jpg" alt="">
+                          
+                              <P> ممنوع الانعطاف نحو اليسار</P>
+                            </div>
+                      
+                            <div class=" col-lg-2  col-sm-4  single mb-3">
+                           
+                              <img src="/img/qw.jpg" alt="">
+                          
+                              <P>ممنوع الانعطاف نحو اليمين</P>
+                            </div>
+                            <div class=" col-lg-2  col-sm-4  single   mb-3">
+                           
+                              <img src="/img/xc.jpg" alt="">
+                          
+                              <P>ممنوع الانتظار</P>
+                      
+                       
+                        </div>
+                            </div>
+                      
+                  
+              
+          
+          </section>
+      
+        <section class="mt-5 valio" id="rull3">
+          <div class="container " >
+            <h3 class="text-center mt-4 " >المخالفات المرورية</h3>
+            <div class="underline"></div>
+           
+            <div class="row mt-4 ml-5 ">
+
+              <% list.forEach(item => { %>
+                <div class="col-lg-3  col-md-6 col-sm-3 info-vlai  mb-3 ml-5" >
+                  <h6 cl><span>اسم المخالفة:</span> <%= item.type %></h6>
+                  <hr class="mt-5" >
+                  <p > <span>الغرامة:</span><%=item.cost %></p>
+                  <hr class="mt-5" >
+                  <% if(item.reservation_required) { %>
+                  <p class="mt-5"><span>مدة الحجز:</span><%=item.duration %></p>
+                 
+                  <% } %>
+                </div>
+                <% }); %>
+            </div>
+          </div>
+         
+        </section>
+        <%- include("././partials/footer") %>
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+        crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+        integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
+        crossorigin="anonymous"></script>
+ 
+       
+</body>
+</html>

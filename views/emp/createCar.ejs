@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>تسجيل مركبة</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+
+    <link rel="stylesheet" href="sweetalert2.min.css" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <%- include(".././partials/headerEmp") %>
+    <section class="employy mt-4">
+      <div class="container">
+        <div class="row mt-4" dir="rtl">
+          <form class="col-lg-11 offset-lg-2 mr-3 postcar emp mt-2">
+            <div class="row ml-5">
+              <div class="officer-form col-lg-3 emp-form mr-5">
+                <label for="plate_number"> رقم لوحة المركبة</label>
+                <input
+                  type="text"
+                  pattern="[0-9]{6}"
+                  name="plate_number"
+                  id="plate_number"
+                  required
+                />
+              </div>
+              <div class="officer-form col-lg-3 emp-form">
+                <label for="owner">المالك</label>
+                <input type="text" id="owner" name="owner" required />
+              </div>
+              <div class="officer-form col-lg-3 emp-form">
+                <label for="national_number"> رقم الوطني للمالك</label>
+                <input
+                  type="text"
+                  pattern="[0-9]{11}"
+                  name="national_number"
+                  id="national_number"
+                  required
+                />
+              </div>
+              <div class="officer-form emp-form col-lg-3 mr-5">
+                <label for="structure_number"> رقم هيكل المركبة</label>
+                <input
+                  type="text"
+                  name="structure_number"
+                  id="structure_number"
+                  required
+                />
+              </div>
+              <div class="officer-form emp-form col-lg-3">
+                <label for="color">اللون</label>
+                <input type="text" id="color" name="color" required />
+              </div>
+              <div class="officer-form emp-form col-lg-3">
+                <label for="type">النوع</label>
+                <input type="text" id="type" name="type" required />
+              </div>
+              <div class="officer-form emp-form col-lg-3 mr-5">
+                <label for="class"> فئة المركبة</label>
+                <input type="text" name="class" id="class" required />
+              </div>
+              <div class="officer-form emp-form col-lg-3">
+                <label for="name">الشركة المصنعة</label>
+                <input type="text" id="name" name="name" required />
+              </div>
+              <div class="officer-form emp-form col-lg-3">
+                <label for="model">الطراز</label>
+                <input type="text" id="model" name="model" required />
+              </div>
+              <div class="officer-form emp-form col-lg-3 mr-5">
+                <label for="fuelType">نوع الوقود</label>
+                <input
+                  list="fuel"
+                  type="text"
+                  id="fuelType"
+                  name="fuelType"
+                  required
+                />
+                <datalist id="fuel">
+                  <option value=""></option>
+                  <option value="بانزين"></option>
+                  <option value="مازوت"></option>
+                  <option value="غاز"></option>
+                  <option value="كهرباء"></option>
+                </datalist>
+              </div>
+              <div class="officer-form emp-form col-lg-3">
+                <label for="engineCapacity">سعة المحرك</label>
+                <input
+                  type="number"
+                  min="500"
+                  max="4000"
+                  id="engineCapacity"
+                  name="engineCapacity"
+                  required
+                />
+              </div>
+              <div class="officer-form emp-form col-lg-3">
+                <label for="sngine_number">رقم المحرك</label>
+                <input
+                  type="text"
+                  id="sngine_number"
+                  name="sngine_number"
+                  required
+                />
+              </div>
+              <div class="officer-form col-lg-3 emp-form mr-5">
+                <label for="tareWeight">الوزن الفارغ</label>
+                <input
+                  type="number"
+                  min="200"
+                  max="60000"
+                  id="tareWeight"
+                  name="tareWeight"
+                  required
+                />
+              </div>
+              <div class="officer-form col-lg-3 emp-form">
+                <label for="grossWeight">الوزن القائم</label>
+                <input
+                  type="number"
+                  min="200"
+                  max="60000"
+                  id="grossWeight"
+                  name="grossWeight"
+                  required
+                />
+              </div>
+
+              <div class="officer-form col-lg-3 emp-form">
+                <label for="axes">عدد المحاور</label>
+                <input
+                  type="number"
+                  min="2"
+                  max="16"
+                  id="axes"
+                  name="axes"
+                  required
+                />
+              </div>
+              <div class="officer-form emp-form col-lg-3 mr-5">
+                <label for="productionDate" class="mb-5">سنة التصنيع</label>
+                <input
+                  type="date"
+                  id="productionDate"
+                  name="productionDate"
+                  class="mt-4"
+                  required
+                />
+              </div>
+
+              <div class="officer-form emp-form col-lg-4">
+                <button class="pl-5 pr-5 mr-5">تسجيل مركبة</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    <script>
+      let type, name, region, model, sngine_number;
+      let form = document.querySelector(".postcar");
+      form.addEventListener("submit", () => {
+        event.preventDefault();
+        let data = {
+          type: document.getElementById("type").value,
+          class: document.getElementById("class").value,
+          name: document.getElementById("name").value,
+          model: document.getElementById("model").value,
+          sngine_number: document.getElementById("sngine_number").value,
+          structure_number: document.getElementById("structure_number").value,
+          plate_number:
+            document.getElementById("plate_number").value + " " + "حلب",
+          color: document.getElementById("color").value,
+          owner: document.getElementById("owner").value,
+          national_number: document.getElementById("national_number").value,
+          fuelType: document.getElementById("fuelType").value,
+          engineCapacity: document.getElementById("engineCapacity").value,
+          tareWeight: document.getElementById("tareWeight").value,
+          grossWeight: document.getElementById("grossWeight").value,
+          axes: document.getElementById("axes").value,
+          productionDate: document.getElementById("productionDate").value,
+        };
+        try {
+          fetch("http://localhost:8500/view/emp", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify(data),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.status == "success") {
+                Swal.fire({
+                  title: " تم اضافه المركبة بنجاح",
+
+                  icon: "success",
+                  confirmButtonColor: "#068331",
+                  confirmButtonText: "تم",
+                  timer: 2500,
+                  showClass: {
+                    popup: "animate__animated animate__fadeInDown",
+                  },
+                  hideClass: {
+                    popup: "animate__animated animate__fadeOutUp",
+                  },
+                });
+                setTimeout(function () {
+                  window.location.href = data.url;
+                }, 3000);
+              } else {
+                //alert(data.message)
+                Swal.fire({
+                  text: data.message,
+
+                  confirmButtonColor: "#068331",
+                  confirmButtonText: "حسنا",
+                  showClass: {
+                    popup: "animate__animated animate__fadeInDown",
+                  },
+                  hideClass: {
+                    popup: "animate__animated animate__fadeOutUp",
+                  },
+                });
+              }
+            });
+        } catch (err) {
+          console.log(err);
+        }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+      integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
